@@ -1,0 +1,38 @@
+document.addEventListener("DOMContentLoaded", function () {
+    updateMessages(); // Load messages from server when page opens
+});
+
+let messages = [
+    { username: "Alice", text: "Hello World", profilePic: "alice.jpg" },
+    { username: "Bob", text: "Blah Blah", profilePic: "bob.jpg" },
+    { username: "Charlie", text: "I love cats", profilePic: "charlie.jpg" }
+];
+
+function updateMessages() {
+    const messageList = document.getElementById("message-list");
+    messageList.innerHTML = "";
+    messages.forEach(msg => {
+        let li = document.createElement("li");
+        li.innerHTML = `
+            <img src="${msg.profilePic}" alt="${msg.username}'s profile picture" class="profile-pic">
+            <strong>${msg.username}:</strong> ${msg.text}
+        `;
+        messageList.appendChild(li);
+    });
+}
+
+function sendMessage() {
+    const input = document.getElementById("message-input");
+    const usernameInput = document.getElementById("username-input");
+    let username = usernameInput.value || "Anonymous";
+    let text = input.value.trim();
+    if (text !== "") {
+        messages.push({ username: username, text: text, profilePic: "default.jpg" });
+        input.value = "";
+        updateMessages();
+    }
+}
+
+function toggleTheme() {
+    document.body.classList.toggle("dark-theme");
+}

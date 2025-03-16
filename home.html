@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Web Messaging</title>
+    <link rel="stylesheet" href="home.css">
+    <script src="script.js" defer></script>
+    <script>
+        function changeLanguage(lang) {
+            document.documentElement.lang = lang;
+            const messages = {
+                "en": {
+                    "title": "Message Board",
+                    "placeholder": "Type your message...",
+                    "button": "Send",
+                    "username": "Enter your username",
+                    "update": "Update Messages",
+                    "theme": "Toggle Theme",
+                    "save": "Save"
+                },
+                "fr": {
+                    "title": "Tableau de messages",
+                    "placeholder": "Tapez votre message...",
+                    "button": "Envoyer",
+                    "username": "Entrez votre pseudo",
+                    "update": "Mettre à jour les messages",
+                    "theme": "Changer le thème",
+                    "save": "Sauvegarder"
+                }
+            };
+            document.getElementById("title").innerText = messages[lang].title;
+            document.getElementById("message-input").placeholder = messages[lang].placeholder;
+            document.getElementById("send-button").innerText = messages[lang].button;
+            document.getElementById("username-input").placeholder = messages[lang].username;
+            document.getElementById("update-button").innerText = messages[lang].update;
+            document.getElementById("theme-button").innerText = messages[lang].theme;
+            document.getElementById("save-button").innerText = messages[lang].save;
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 id="title">Message Board</h1>
+            <div class="header-controls">
+                <select id="language-selector" onchange="changeLanguage(this.value)">
+                    <option value="en">English</option>
+                    <option value="fr">Français</option>
+                </select>
+                <button id="theme-button" onclick="toggleTheme()">Toggle Theme</button>
+                <div class="server-url">
+                    <label for="server-url">Server URL:</label>
+                    <input type="text" id="server-url" placeholder="http://localhost:8080" aria-label="Enter server URL">
+                    <button onclick="saveServerURL()" id="save-button">Save</button>
+                </div>
+            </div>
+        </header>
+        <main>
+            <section>
+                <input type="text" id="username-input" placeholder="Enter your username" aria-label="Enter your username">
+                <div class="profile-selection">
+                    <label>Choose a profile picture:</label>
+                    <div class="avatar-selector" role="radiogroup" aria-label="Choose a profile picture">
+                        <img src="avatars/avatar1.webp" alt="Young woman with dark skin and curly black hair in a bun" class="avatar-option" data-avatar="avatar1.webp" role="radio" tabindex="0">
+                        <img src="avatars/avatar2.webp" alt="Young man of Asian descent with short brown hair" class="avatar-option" data-avatar="avatar2.webp" role="radio" tabindex="0">
+                        <img src="avatars/avatar3.webp" alt="Illustration of a fox" class="avatar-option" data-avatar="avatar3.webp" role="radio" tabindex="0">
+                        <img src="avatars/avatar4.webp" alt="Illustration of a Jack Russell dog" class="avatar-option" data-avatar="avatar4.webp" role="radio" tabindex="0">
+                        <img src="avatars/avatar5.webp" alt="Cartoon poop emoji with a bored expression" class="avatar-option" data-avatar="avatar5.webp" role="radio" tabindex="0">
+                        <img src="avatars/avatarDefault.webp" alt="Default avatar silhouette" class="avatar-option" data-avatar="avatarDefault.webp" role="radio" tabindex="0">
+                    </div>
+                </div>
+            </section>
+            <section class="chat-container">
+                <ul id="message-list" aria-live="polite"></ul>
+            </section>
+            <section>
+                <textarea id="message-input" placeholder="Type your message..." aria-label="Message input"></textarea>
+                <button id="send-button" onclick="sendMessage()">Send</button>
+                <button id="update-button" onclick="updateMessages()">Update Messages</button>
+            </section>
+        </main>
+    </div>
+    <script>
+        document.getElementById("message-input").addEventListener("keypress", function(event) {
+            if (event.key === "Enter" && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
